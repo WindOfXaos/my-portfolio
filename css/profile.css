@@ -9,6 +9,7 @@
 a {
     display: inherit;
     text-decoration: none;
+    color: inherit;
 }
 
 ul.list {
@@ -25,13 +26,14 @@ ul.list > * {
     border: solid white 5px;
     color: white;
     font-size: large;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 .sidebar {
     display: flex;
-    position: fixed;
+    position: fixed;z-index: 1;
     height: 100%;
 }
 
@@ -58,4 +60,45 @@ ul.insidebar > a > * {
 
 .sidebar:hover ul.insidebar{
     transform: translateX(0px);
+}
+
+ul.list > .profile-bg {
+    background: url('../assets/profile-bg.jpg'), grey;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+    background-repeat: no-repeat;
+}
+
+.cont {
+    display: flex;
+    flex-direction: column;
+}
+
+.name {
+    text-align: center;
+    font-size: 7vw;
+}
+
+.username {
+    font-size: 1.5vw;
+    color:black;
+    background-color: white;
+    width: fit-content;
+    padding: 3px;
+    font-family: monospace;
+}
+
+.role {
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 2.7vw;
+    margin: 0.5rem;
+}
+
+.icons {
+    display: flex;
+    padding: 0;
+    list-style: none;
+    gap: 50px;
 }
