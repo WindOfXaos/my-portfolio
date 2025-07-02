@@ -1,0 +1,60 @@
+.about-background {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 3rem;
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.02) 50%, rgba(0, 0, 0, 0.1) 50%);
+    background-size: 30px 30px;
+    animation: slide 4s linear infinite;
+}
+
+.about-hero {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.badge-container {
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.about-badge {
+    display: flex;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.4em;
+    font-weight: normal;
+    transition: transform 1s ease;
+}
+
+.about-badge:hover {
+    transform: scale(1.1);
+}
+
+@keyframes slide {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 30px -30px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .about-background {
+        padding: 1.5rem;
+    }
+
+    .about-hero {
+        font-size: 1rem;
+    }
+
+    .about-badge {
+        padding: 0.15rem 0.3rem;
+        font-size: 0.4em;
+    }
+}

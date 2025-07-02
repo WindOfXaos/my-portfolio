@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+    scroll-behavior: smooth;
+}
+
+a {
+    display: inherit;
+    text-decoration: none;
+    color: inherit;
+}
+
+li.item {
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    overflow: hidden;
+    color: white;
+    font-size: 25px;
+    font-family: 'roboto';
+    font-weight: normal;
+    align-items: center;
+    text-indent: 20px;
+    transition: all 0.3s ease-in-out 0.05s;
+}
+
+li.item:hover {
+    background-color: white;
+    color: #202020;
+}
+
+ul.list {
+    display: grid;
+    grid-auto-rows: minmax(100vh, auto);
+    grid-gap: 10px;
+    background: black;
+    list-style: none;
+    padding: 0;
+}
+
+ul.list>* {
+    display: flex;
+    background: #0d0d0d;
+    color: white;
+    font-size: large;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #202020;
+    position: fixed;
+    z-index: 1;
+    height: 100vh;
+    width: 0;
+    padding: 0;
+    box-shadow: 4px 7px 10px rgba(0, 0, 0, .4);
+    transition: width 0.5s ease-in-out 0.05s;
+}
+
+.sidebar:hover {
+    width: 170px;
+}
+
+.sidebar::after {
+    content: "❱";
+    position: absolute;
+    right: -25px;
+    top: 40%;
+    width: 25px;
+    height: 80px;
+    font-weight: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+    border-radius: 0 10px 10px 0;
+    transition: opacity 0.5s;
+}
+
+.sidebar:hover::after {
+    opacity: 0;
+}
+
+.alert {
+    display: flex;
+    position: absolute;
+    align-items: center;
+    top: 2.5vh;
+    width: fit-content;
+    width: -moz-fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    border-radius: .125rem;
+    padding: .3rem;
+    color: black;
+    background-color: #E2E3E3;
+}
+
+.text {
+    margin-left: 0.5em;
+    font-size: 0.43em;
+}
+
+.icon {
+    font-size: 0.4em;
+}

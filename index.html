@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZJJ3CJ4SGN"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-      gtag('config', 'G-ZJJ3CJ4SGN');
+        gtag('config', 'G-ZJJ3CJ4SGN');
     </script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,37 +17,42 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/profile.css"/>
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/profile.css" />
+    <link rel="stylesheet" type="text/css" href="css/about.css" />
+    <link rel="stylesheet" type="text/css" href="css/projects.css" />
     <script src="https://kit.fontawesome.com/32f0a98c94.js" crossorigin="anonymous"></script>
     <title>Moaaz W. Lotfi</title>
 </head>
+
 <body>
-    <div class='alert' role='alert'>
-        <i class="fas fa-exclamation-circle icon"></i>
-        <p class='text'>Work In Progress</p>
-    </div>
     <ul class="sidebar">
-        <a href="#1"><li class="item 1">PROFILE</li></a>
-        <a href="#2"><li class="item 2">ABOUT</li></a>
-        <a href="#3"><li class="item 3">PROJECTS</li></a>
-        <a href="#4"><li class="item 4">GALLERY</li></a>
-        <a href="#5"><li class="item 5">CONTACT</li></a>
+        <a href="#profile">
+            <li class="item 1">PROFILE</li>
+        </a>
+        <a href="#about">
+            <li class="item 2">ABOUT</li>
+        </a>
+        <a href="#projects">
+            <li class="item 3">PROJECTS</li>
+        </a>
     </ul>
     <ul class="list">
-        <li id="1" class="profile-bg">
+        <li id="profile" class="profile-bg">
             <p class="name">Moaaz W. Lotfi</p>
             <p class="role">DEVELOPER&nbsp;&nbsp;|&nbsp;&nbsp;DESIGNER</p>
             <ul class="icons">
-                <a href="https://www.linkedin.com/in/moaaz-lotfi-87b41b1a6/">
+                <a href="https://www.linkedin.com/in/moaaz-lotfi-87b41b1a6/" target="_blank">
                     <li><i class="fa-brands fa-linkedin-in fa-xs"></i></li>
                 </a>
-                <a href="https://github.com/WindOfXaos">
+                <a href="https://github.com/WindOfXaos" target="_blank">
                     <li><i class="fa-brands fa-github fa-xs"></i></li>
                 </a>
-                <a href="https://www.behance.net/muazwaleed">
+                <a href="https://www.behance.net/muazwaleed" target="_blank">
                     <li><i class="fa-brands fa-behance fa-xs"></i></li>
                 </a>
-                <a href="https://www.youtube.com/@metras.">
+                <a href="https://www.youtube.com/@metras." target="_blank">
                     <li><i class="fa-brands fa-youtube fa-xs"></i></li>
                 </a>
             </ul>
@@ -56,10 +62,97 @@
                 <div class="scroll"></div>
             </div>
         </li>
-        <li id="2">ABOUT</li>
-        <li id="3">PROJECTS</li>
-        <li id="4">GALLERY</li>
-        <li id="5">CONTACT</li>
+        <li id="about">
+            <div class="about-background">
+                <p class="about-hero">
+                    Bringing together art, code, and theory to create simple things people can trust and enjoy.
+                </p>
+                <div style="width: 100%; padding-top: 1rem;">
+                    <p style="font-size: 0.5rem; padding: 0.3rem 0;">I’m into</p>
+                    <ul class="badge-container">
+                        <li class="about-badge" style="background-color: #00860091;">Computer Graphics</li>
+                        <li class="about-badge" style="background-color: #86000091;">Game Development</li>
+                        <li class="about-badge" style="background-color: #00838873;">Web Development</li>
+                        <li class="about-badge" style="background-color: #84860091;">Tools Programming</li>
+                        <li class="about-badge" style="background-color: #80004d75;">Automation</li>
+                    </ul>
+                </div>
+            </div>
+        </li>
+        <li id="projects">
+            <ul class="projects-list">
+                <li>
+                    <video class="background-video" autoplay muted loop preload="auto" height="100%">
+                        <source src="/assets/videos/seemycounter.mp4" type="video/mp4">
+                    </video>
+                    <div class="project-content">
+                        <a class="title" href="https://seemycounter.com" target="_blank">
+                            My Counter
+                        </a>
+                        <video autoplay muted loop preload="auto" width="100%">
+                            <source src="/assets/videos/seemycounter.mp4">
+                        </video>
+                        <p>
+                            A feature-rich platform for creating and sharing interactive, customizable countdown
+                            pages. Includes a powerful editor, community-driven template gallery, social sharing tools,
+                            offline support, and seamless embedding across websites, wallpapers, and streaming
+                            overlays, made to go viral and elevate any event.
+                        </p>
+                        <a href="https://stackshare.io/my-counter/my-counter" class="stack-button" target="_blank">
+                            Tech Stack
+                            <img src="/assets/icons/stackshare.svg" alt="stackshare" class="button-icon" />
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <video class="background-video" autoplay muted loop preload="auto" height="100%">
+                        <source src="/assets/videos/covet.mp4" type="video/mp4">
+                    </video>
+                    <div class="project-content">
+                        <a class="title" href="https://github.com/WindOfXaos/COVET" target="_blank">
+                            COVET
+                        </a>
+                        <video autoplay muted loop preload="auto" width="100%">
+                            <source src="/assets/videos/covet.mp4">
+                        </video>
+                        <p>
+                            Cross-platform game engine developed in C++ with OpenGL, GLFW3, GLAD, GLM, and ImGui.
+                            Features include incremental builds via Makefiles, unit testing with doctest, and CI/CD
+                            integration using GitHub Actions for automated testing and builds on Linux and Windows.
+                        </p>
+                        <a href="https://stackshare.io/windofxaos/covet" class="stack-button" target="_blank">
+                            Tech Stack
+                            <img src="/assets/icons/stackshare.svg" alt="stackshare" class="button-icon" />
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <video class="background-video" autoplay muted loop preload="auto" height="100%">
+                        <source src="/assets/videos/dequeue.mp4" type="video/mp4">
+                    </video>
+                    <div class="project-content">
+                        <a class="title" href="https://www.figma.com/proto/sqUWdtjaJeNzaVNfBoPMQ3?node-id=0%3A1"
+                            target="_blank">
+                            Dequeue
+                        </a>
+                        <video autoplay muted loop preload="auto" width="100%"
+                            style="aspect-ratio: 16/9; background-color: rgb(10, 10, 10);">
+                            <source src="/assets/videos/dequeue.mp4">
+                        </video>
+                        <p>
+                            Dequeue streamlines reservations for vendors and customers by estimating total
+                            service times and providing precise attendance times, giving customers clear insight into
+                            their position in line to minimize uncertainty and waiting.
+                        </p>
+                        <a href="https://stackshare.io/windofxaos/dequeue" class="stack-button" target="_blank">
+                            Tech Stack
+                            <img src="/assets/icons/stackshare.svg" alt="stackshare" class="button-icon" />
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </li>
     </ul>
 </body>
+
 </html>
