@@ -1,0 +1,6 @@
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true
+  workerd: true
+# pnpm 12 ignores postinstall scripts unless the package is listed here.
+# These three ship platform binaries required at build/preview time.
