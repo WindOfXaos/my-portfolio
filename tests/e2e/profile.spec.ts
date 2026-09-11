@@ -71,6 +71,48 @@ test('visitor sees the profile slice with metadata and safe social links', async
   await expect(await page.content()).not.toContain('G-ZJJ3CJ4SGN');
 });
 
+test('desktop profile preserves the legacy composition', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 1153 });
+  await page.goto('/');
+
+  const composition = await page.evaluate(() => {
+    const hero = document.querySelector<HTMLElement>('#profile');
+    const name = document.querySelector<HTMLElement>('.profile-name');
+    const role = document.querySelector<HTMLElement>('.profile-role');
+    const social = document.querySelector<HTMLElement>('.profile-social');
+    const scrollHint = document.querySelector<HTMLElement>('.scroll-hint');
+
+    if (!hero || !name || !role || !social || !scrollHint) {
+      throw new Error('Profile composition is incomplete');
+    }
+
+    const nameRect = name.getBoundingClientRect();
+    const roleRect = role.getBoundingClientRect();
+    const socialRect = social.getBoundingClientRect();
+    const scrollRect = scrollHint.getBoundingClientRect();
+
+    return {
+      backgroundColor: getComputedStyle(hero).backgroundColor,
+      nameFontSize: getComputedStyle(name).fontSize,
+      nameY: nameRect.y,
+      nameWidth: nameRect.width,
+      roleY: roleRect.y,
+      roleWidth: roleRect.width,
+      socialWidth: socialRect.width,
+      scrollY: scrollRect.y,
+    };
+  });
+
+  expect(composition.backgroundColor).toBe('rgba(0, 0, 0, 0)');
+  expect(composition.nameFontSize).toBe('134.4px');
+  expect(Math.abs(composition.nameY - 446)).toBeLessThan(2);
+  expect(Math.abs(composition.nameWidth - 1220)).toBeLessThan(2);
+  expect(Math.abs(composition.roleY - 629)).toBeLessThan(2);
+  expect(Math.abs(composition.roleWidth - 279)).toBeLessThan(2);
+  expect(Math.abs(composition.socialWidth - 182)).toBeLessThan(2);
+  expect(Math.abs(composition.scrollY - 872)).toBeLessThan(3);
+});
+
 test('social links expose a visible keyboard focus indicator', async ({
   page,
 }) => {

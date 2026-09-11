@@ -1,9 +1,7 @@
 @import 'tailwindcss';
 
 /* CSS-first token layer: shared visual tokens live here as Tailwind v4
- * theme values; ordinary layout stays as utilities in templates. Effects
- * that are clearer as authored CSS (profile backdrop, chevron animation)
- * remain authored CSS below. */
+ * theme values; ordinary layout stays as utilities in templates. */
 @theme {
   --font-sans: 'Montserrat', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-role: 'Roboto', ui-sans-serif, system-ui, sans-serif;
@@ -28,133 +26,8 @@ body {
   border-radius: 2px;
 }
 
-/* Recognizable centered monochrome profile treatment, faithful to the
- * legacy design. Ordinary layout, spacing, and typography live as Tailwind
- * utilities in the template; only the distinctive backdrop, badge, role
- * scale, hover/focus treatment, and chevron animation stay authored here. */
-.profile-hero {
-  --profile-bg: none;
-  background-color: var(--color-profile-ink);
-  background-image: var(--profile-bg), radial-gradient(circle, #ffffff 50%, rgba(1, 1, 1, 0.7) 100%);
-  background-size: cover, cover;
-  background-position: center, center;
-  background-blend-mode: multiply;
-  background-repeat: no-repeat, no-repeat;
-}
-
-.profile-name {
-  font-weight: 600;
-  line-height: 1.05;
-  font-size: clamp(2.5rem, 9vw, 6rem);
-}
-
-.profile-alias {
-  height: fit-content;
-  padding: 0.15em 0.5em;
-  color: #000000;
-  background: var(--color-profile-paper);
-  font-size: clamp(0.7rem, 1.5vw + 0.5rem, 1rem);
-  white-space: nowrap;
-}
-
-.profile-role {
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: clamp(1rem, 2.5vw + 0.5rem, 1.5625rem);
-}
-
-.profile-social-link {
-  transition: transform 0.2s ease;
-}
-
-.profile-social-link:hover {
-  transform: scale(1.15);
-}
-
-/* Scroll affordance: cascading chevrons, as in the legacy design. */
-.scroll-hint {
-  position: relative;
-  width: 1.75rem;
-  height: 0.5rem;
-  margin-top: 15svh;
-}
-
-.scroll-hint__chevron {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transform: scale3d(0.5, 0.5, 0.5);
-  animation: scroll-hint-move 3s ease-out infinite;
-}
-
-.scroll-hint__chevron:first-child {
-  animation-delay: 1s;
-}
-
-.scroll-hint__chevron:nth-child(2) {
-  animation-delay: 2s;
-}
-
-.scroll-hint__chevron::before,
-.scroll-hint__chevron::after {
-  content: ' ';
-  position: absolute;
-  top: 0;
-  height: 100%;
-  background: var(--color-profile-paper);
-}
-
-.scroll-hint__chevron::before {
-  left: 0;
-  width: 51%;
-  transform: skew(0deg, 30deg);
-}
-
-.scroll-hint__chevron::after {
-  right: 0;
-  width: 50%;
-  transform: skew(0deg, -30deg);
-}
-
-@keyframes scroll-hint-move {
-  25% {
-    opacity: 1;
-  }
-
-  33% {
-    opacity: 1;
-    transform: translateY(30px);
-  }
-
-  67% {
-    opacity: 1;
-    transform: translateY(40px);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateY(55px) scale3d(0.5, 0.5, 0.5);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  .profile-social-link {
-    transition: none;
-  }
-
-  .profile-social-link:hover {
-    transform: none;
-  }
-
-  .scroll-hint__chevron {
-    animation: none;
-    opacity: 1;
-    transform: none;
   }
 }
