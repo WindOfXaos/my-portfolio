@@ -25,6 +25,19 @@ export interface ProfileContent {
   readonly scrollHint: string;
 }
 
+export interface Interest {
+  readonly label: string;
+  /** Badge background color (hex with alpha, from the legacy design). */
+  readonly color: string;
+}
+
+export interface AboutContent {
+  readonly heading: string;
+  readonly statement: string;
+  readonly interestsLabel: string;
+  readonly interests: readonly Interest[];
+}
+
 export const profileContent: ProfileContent = {
   name: 'Moaaz W. Lotfi',
   alias: 'aka WindOfXaos',
@@ -49,4 +62,18 @@ export const profileContent: ProfileContent = {
     },
   ],
   scrollHint: 'Scroll to see more',
+};
+
+export const aboutContent: AboutContent = {
+  heading: 'About',
+  statement:
+    'Bringing together art, code, and theory to create simple things people can trust and enjoy.',
+  interestsLabel: 'I’m into',
+  interests: [
+    { label: 'Computer Graphics', color: '#00860091' },
+    { label: 'Game Development', color: '#86000091' },
+    { label: 'Web Development', color: '#00838873' },
+    { label: 'Tools Programming', color: '#84860091' },
+    { label: 'Automation', color: '#80004d75' },
+  ],
 };

@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import AboutSection from '~/components/AboutSection.vue';
 import ProfileSection from '~/components/ProfileSection.vue';
-import { profileContent } from '~/content/portfolio';
+import ProjectsPlaceholder from '~/components/ProjectsPlaceholder.vue';
+import SiteNavigation from '~/components/SiteNavigation.vue';
+import { aboutContent, profileContent } from '~/content/portfolio';
 
 const runtimeConfig = useRuntimeConfig();
 const siteUrl = runtimeConfig.public.siteUrl;
@@ -27,7 +30,15 @@ useHead({
 </script>
 
 <template>
-  <main>
-    <ProfileSection :profile="profileContent" />
-  </main>
+  <div>
+    <SiteNavigation />
+    <main>
+      <ProfileSection :profile="profileContent" />
+      <AboutSection :about="aboutContent" />
+      <ProjectsPlaceholder
+        heading="Projects"
+        message="Selected projects are being migrated to this site — check back soon."
+      />
+    </main>
+  </div>
 </template>
