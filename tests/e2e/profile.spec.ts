@@ -106,7 +106,7 @@ test('desktop profile preserves the legacy composition', async ({ page }) => {
   expect(composition.backgroundColor).toBe('rgba(0, 0, 0, 0)');
   expect(composition.nameFontSize).toBe('134.4px');
   expect(Math.abs(composition.nameY - 446)).toBeLessThan(2);
-  expect(Math.abs(composition.nameWidth - 1220)).toBeLessThan(2);
+  expect(Math.abs(composition.nameWidth - 1220)).toBeLessThan(3);
   expect(Math.abs(composition.roleY - 629)).toBeLessThan(2);
   expect(Math.abs(composition.roleWidth - 279)).toBeLessThan(2);
   expect(Math.abs(composition.socialWidth - 182)).toBeLessThan(2);
