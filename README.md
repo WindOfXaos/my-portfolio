@@ -28,9 +28,15 @@ review (see `docs/adr/0001-cloudflare-workers-with-prerendered-portfolio.md`).
 ## Structure
 
 - `content/portfolio.ts` — strict typed portfolio-content boundary (the only
-  place profile copy and social destinations live)
+  place profile/about copy, interests, and social destinations live)
 - `components/ProfileSection.vue` — profile presentation; consumes the content
   module via props and owns no personal data
+- `components/AboutSection.vue` — about presentation (statement plus interest
+  badges); consumes the content module via props and owns no copy
+- `components/SiteNavigation.vue` — always-visible `Portfolio sections`
+  navigation (`#profile`, `#about`, `#projects`); no hover-dependent disclosure
+- `components/ProjectsPlaceholder.vue` — minimal semantic `#projects`
+  destination (no project content; later ticket)
 - `components/profile-icons.ts` — inlined brand-mark paths (no icon library)
 - `pages/index.vue` — prerendered root page plus SEO metadata
 - `assets/css/main.css` — Tailwind v4 import, CSS-first `@theme` tokens, and

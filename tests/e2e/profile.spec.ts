@@ -140,3 +140,278 @@ test('profile has no serious or critical accessibility violations', async ({
   );
   expect(blocking).toEqual([]);
 });
+
+test('visitor navigates sections through an accessible named navigation', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  const nav = page.getByRole('navigation', { name: 'Portfolio sections' });
+  await expect(nav).toBeVisible();
+
+  for (const name of ['Profile', 'About', 'Projects']) {
+    await expect(nav.getByRole('link', { name })).toBeVisible();
+  }
+
+  const listItems = await nav.locator('ul > li > a').count();
+  expect(listItems).toBe(3);
+
+  await expect(nav.getByRole('link', { name: 'Profile' })).toHaveAttribute(
+    'href',
+    '#profile',
+  );
+  await expect(nav.getByRole('link', { name: 'About' })).toHaveAttribute(
+    'href',
+    '#about',
+  );
+  await expect(nav.getByRole('link', { name: 'Projects' })).toHaveAttribute(
+    'href',
+    '#projects',
+  );
+});
+
+test('navigation exposes the current fragment destination', async ({
+  page,
+}) => {
+  await page.goto('/#about');
+  const nav = page.getByRole('navigation', { name: 'Portfolio sections' });
+  await expect(nav.getByRole('link', { name: 'About' })).toHaveAttribute(
+    'aria-current',
+    'location',
+  );
+  await expect(nav.getByRole('link', { name: 'Profile' })).not.toHaveAttribute(
+    'aria-current',
+    'location',
+  );
+
+  await nav.getByRole('link', { name: 'Projects' }).click();
+  await expect(page).toHaveURL(/#projects$/);
+  await expect(nav.getByRole('link', { name: 'Projects' })).toHaveAttribute(
+    'aria-current',
+    'location',
+  );
+  await expect(nav.getByRole('link', { name: 'About' })).not.toHaveAttribute(
+    'aria-current',
+    'location',
+  );
+
+  // The persistent current-state treatment settles independent of hover or
+  // focus: move the pointer off the navigation, then assert the settled
+  // high-contrast style (retrying through the restrained transition).
+  await page.mouse.move(10, 700);
+  const projectsLink = nav.getByRole('link', { name: 'Projects' });
+  await expect(projectsLink).toHaveCSS('color', 'rgb(13, 13, 13)');
+  await expect(projectsLink).toHaveCSS(
+    'background-color',
+    'rgb(255, 255, 255)',
+  );
+});
+
+test('hash destinations work on initial load and in-page navigation', async ({
+  page,
+}) => {
+  await page.goto('/#about');
+  await expect(page.locator('#about')).toBeInViewport();
+
+  await page.goto('/#profile');
+  await expect(page.locator('#profile')).toBeInViewport();
+
+  await page.goto('/');
+  const nav = page.getByRole('navigation', { name: 'Portfolio sections' });
+  await nav.getByRole('link', { name: 'About' }).click();
+  await expect(page).toHaveURL(/#about$/);
+  await expect(page.locator('#about')).toBeInViewport();
+
+  await nav.getByRole('link', { name: 'Profile' }).click();
+  await expect(page).toHaveURL(/#profile$/);
+  await expect(page.locator('#profile')).toBeInViewport();
+
+  await nav.getByRole('link', { name: 'Projects' }).click();
+  await expect(page).toHaveURL(/#projects$/);
+  await expect(page.locator('#projects')).toBeInViewport();
+  await expect(
+    page.getByRole('heading', { level: 2, name: 'Projects' }),
+  ).toBeVisible();
+});
+
+test('navigation is keyboard operable with visible focus', async ({ page }) => {
+  await page.goto('/');
+
+  const nav = page.getByRole('navigation', { name: 'Portfolio sections' });
+  const profileLink = nav.getByRole('link', { name: 'Profile' });
+  const aboutLink = nav.getByRole('link', { name: 'About' });
+
+  await page.keyboard.press('Tab');
+  await expect(profileLink).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(aboutLink).toBeFocused();
+
+  const outlineStyle = await aboutLink.evaluate(
+    (element) => getComputedStyle(element).outlineStyle,
+  );
+  expect(outlineStyle).not.toBe('none');
+
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/#about$/);
+  await expect(page.locator('#about')).toBeInViewport();
+});
+
+test('profile and about stay usable on mobile, desktop, and short landscape', async ({
+  page,
+}) => {
+  for (const viewport of [
+    { width: 375, height: 667 },
+    { width: 1280, height: 800 },
+    { width: 844, height: 390 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+
+    const nav = page.getByRole('navigation', { name: 'Portfolio sections' });
+    await expect(nav).toBeVisible();
+    for (const name of ['Profile', 'About', 'Projects']) {
+      const link = nav.getByRole('link', { name });
+      await expect(link).toBeVisible();
+      if (viewport.width === 375) {
+        const box = await link.boundingBox();
+        expect(box?.width).toBeGreaterThanOrEqual(44);
+        expect(box?.height).toBeGreaterThanOrEqual(44);
+      }
+    }
+
+    await expect(page.locator('#profile')).toBeVisible();
+    await expect(
+      page.getByText(
+        'Bringing together art, code, and theory to create simple things people can trust and enjoy.',
+      ),
+    ).toBeVisible();
+
+    const overflow = await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth -
+        document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(1);
+
+    const aboutBox = await page.locator('#about').boundingBox();
+    const profileBox = await page.locator('#profile').boundingBox();
+    expect(aboutBox?.height).toBeGreaterThan(0);
+    expect(profileBox?.height).toBeGreaterThan(0);
+  }
+});
+
+test('about keeps its dark patterned treatment with colored badges', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  const treatment = await page.locator('#about').evaluate((element) => {
+    const section = getComputedStyle(element);
+    const patterned = element.querySelector<HTMLElement>('.about-background');
+    if (!patterned) throw new Error('About pattern layer is missing');
+    const pattern = getComputedStyle(patterned);
+    const badges = [
+      ...element.querySelectorAll<HTMLElement>('.about-badge'),
+    ].map((badge) => getComputedStyle(badge).backgroundColor);
+    const durations = [
+      ...element.querySelectorAll<HTMLElement>('.about-badge'),
+    ].map((badge) => getComputedStyle(badge).transitionDuration);
+    return {
+      sectionBackground: section.backgroundColor,
+      patternImage: pattern.backgroundImage,
+      badges,
+      durations,
+    };
+  });
+
+  expect(treatment.sectionBackground).toBe('rgb(13, 13, 13)');
+  expect(treatment.patternImage).toContain('linear-gradient');
+  expect(treatment.badges).toHaveLength(5);
+  expect(new Set(treatment.badges).size).toBeGreaterThanOrEqual(4);
+  for (const duration of treatment.durations) {
+    const seconds = Number.parseFloat(duration);
+    expect(seconds).toBeLessThanOrEqual(0.3);
+  }
+});
+
+test('reduced motion suppresses nonessential about and navigation motion', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+
+  const motion = await page.evaluate(() => {
+    const patterned = document.querySelector<HTMLElement>('.about-background');
+    const badge = document.querySelector<HTMLElement>('.about-badge');
+    const navLink = document.querySelector<HTMLElement>('.site-nav-link');
+    if (!patterned || !badge || !navLink) {
+      throw new Error('Motion targets are missing');
+    }
+    return {
+      patternAnimation: getComputedStyle(patterned).animationName,
+      badgeTransition: getComputedStyle(badge).transitionDuration,
+      navTransition: getComputedStyle(navLink).transitionDuration,
+      scrollBehavior: getComputedStyle(document.documentElement).scrollBehavior,
+    };
+  });
+
+  expect(
+    motion.patternAnimation === 'none' || motion.patternAnimation === '',
+  ).toBe(true);
+  expect(['0s', '0s, 0s']).toContain(motion.badgeTransition);
+  expect(['0s', '0s, 0s']).toContain(motion.navTransition);
+  expect(motion.scrollBehavior).toBe('auto');
+});
+
+test('page exposes main, navigation, and section landmarks in order', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  await expect(
+    page.getByRole('navigation', { name: 'Portfolio sections' }),
+  ).toBeVisible();
+  await expect(page.getByRole('main')).toBeVisible();
+  await expect(page.locator('main #profile')).toBeVisible();
+  await expect(page.locator('main #about')).toBeVisible();
+  await expect(page.locator('main #projects')).toBeVisible();
+
+  const headings = await page.getByRole('heading').evaluateAll((elements) =>
+    elements.map((element) => ({
+      level: Number(element.tagName.slice(1)),
+      text: element.textContent?.trim() ?? '',
+    })),
+  );
+  expect(headings[0]?.level).toBe(1);
+  expect(headings.map((heading) => heading.level)).toEqual([1, 2, 2]);
+});
+
+test('visitor sees the about statement and five interests', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  const about = page.locator('#about');
+  await expect(about).toBeVisible();
+  // The h2 stays the section's accessible name but is visually hidden so
+  // the positioning statement remains the visual lead (legacy design).
+  const aboutHeading = page.getByRole('heading', { level: 2, name: 'About' });
+  await expect(aboutHeading).toBeAttached();
+  await expect(about).toHaveAttribute('aria-labelledby', 'about-heading');
+  const headingBox = await aboutHeading.boundingBox();
+  expect(headingBox?.height).toBeLessThanOrEqual(2);
+  await expect(
+    about.getByText(
+      'Bringing together art, code, and theory to create simple things people can trust and enjoy.',
+    ),
+  ).toBeVisible();
+  for (const interest of [
+    'Computer Graphics',
+    'Game Development',
+    'Web Development',
+    'Tools Programming',
+    'Automation',
+  ]) {
+    await expect(about.getByText(interest, { exact: true })).toBeVisible();
+  }
+});

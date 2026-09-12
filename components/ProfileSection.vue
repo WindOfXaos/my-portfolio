@@ -64,6 +64,7 @@ function iconPath(icon: SocialIcon): string {
   --profile-bg: none;
   font-size: 18px;
   font-weight: 600;
+  scroll-margin-top: 3.5rem;
   background-image:
     var(--profile-bg),
     radial-gradient(circle, #ffffff 50%, rgba(1, 1, 1, 0.7) 100%);
