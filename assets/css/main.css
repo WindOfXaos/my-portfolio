@@ -1,0 +1,33 @@
+@import 'tailwindcss';
+
+/* CSS-first token layer: shared visual tokens live here as Tailwind v4
+ * theme values; ordinary layout stays as utilities in templates. */
+@theme {
+  --font-sans: 'Montserrat', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-role: 'Roboto', ui-sans-serif, system-ui, sans-serif;
+  --font-alias: ui-monospace, 'Cascadia Mono', Menlo, Consolas, monospace;
+
+  --color-profile-ink: #0d0d0d;
+  --color-profile-paper: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+/* Clearly visible keyboard focus on every interactive element. */
+:where(a, button):focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

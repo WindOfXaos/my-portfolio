@@ -1,0 +1,18 @@
+.nuxt
+.output
+dist
+coverage
+playwright-report
+test-results
+.wrangler
+pnpm-lock.yaml
+public/favicon.png
+public/profile-bg.jpg
+# Outside the migration scope: agentic workflow files, user-owned docs, and
+# the legacy static site (kept as reference for the about/projects slices).
+.agents
+.delegate
+CONTEXT.md
+docs/adr
+css
+index.html

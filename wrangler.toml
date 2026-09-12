@@ -1,0 +1,7 @@
+# Minimal Cloudflare Workers configuration (see ADR-0001).
+# No storage, AI, or other bindings: the portfolio is prerendered HTML plus
+# static assets served by the Nuxt/Nitro worker built with `pnpm build`.
+# Preview locally with `pnpm preview:cloudflare` after building.
+name = "my-portfolio"
+main = ".output/server/index.mjs"
+compatibility_date = "2026-09-01"
